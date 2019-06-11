@@ -10,13 +10,13 @@ import (
 	"time"
 
 	"github.com/cloudflare/cfssl/config"
-	"github.com/hyperledger/fabric-ca/api"
-	dbutil "github.com/hyperledger/fabric-ca/lib/server/db/util"
-	"github.com/hyperledger/fabric-ca/lib/server/idemix"
-	"github.com/hyperledger/fabric-ca/lib/server/ldap"
-	"github.com/hyperledger/fabric-ca/lib/tls"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp/factory"
+	"github.com/mskj/fabric-ca-gm/api"
+	dbutil "github.com/mskj/fabric-ca-gm/lib/server/db/util"
+	"github.com/mskj/fabric-ca-gm/lib/server/idemix"
+	"github.com/mskj/fabric-ca-gm/lib/server/ldap"
+	"github.com/mskj/fabric-ca-gm/lib/tls"
+	"github.com/mskj/fabric-ca-gm/util"
 )
 
 const (

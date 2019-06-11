@@ -27,8 +27,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib"
 	yaml "gopkg.in/yaml.v2"
 )
 

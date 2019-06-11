@@ -15,13 +15,13 @@ import (
 	"github.com/cloudflare/cfssl/certdb"
 	certsql "github.com/cloudflare/cfssl/certdb/sql"
 	"github.com/cloudflare/cfssl/log"
-	cr "github.com/hyperledger/fabric-ca/lib/server/certificaterequest"
-	"github.com/hyperledger/fabric-ca/lib/server/db"
-	cadb "github.com/hyperledger/fabric-ca/lib/server/db"
-	dbutil "github.com/hyperledger/fabric-ca/lib/server/db/util"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/jmoiron/sqlx"
 	"github.com/kisielk/sqlstruct"
+	cr "github.com/mskj/fabric-ca-gm/lib/server/certificaterequest"
+	"github.com/mskj/fabric-ca-gm/lib/server/db"
+	cadb "github.com/mskj/fabric-ca-gm/lib/server/db"
+	dbutil "github.com/mskj/fabric-ca-gm/lib/server/db/util"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
 )
 

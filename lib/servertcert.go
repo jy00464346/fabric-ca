@@ -7,10 +7,10 @@ SPDX-License-Identifier: Apache-2.0
 package lib
 
 import (
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib/caerrors"
-	tcert "github.com/hyperledger/fabric-ca/lib/tcert"
 	"github.com/hyperledger/fabric/bccsp"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib/caerrors"
+	tcert "github.com/mskj/fabric-ca-gm/lib/tcert"
 	"github.com/pkg/errors"
 )
 
@@ -77,6 +77,11 @@ func tcertHandler(ctx *serverRequestContextImpl) (interface{}, error) {
 
 // genRootKey generates a new root key
 func genRootKey(csp bccsp.BCCSP) (bccsp.Key, error) {
-	opts := &bccsp.AES256KeyGenOpts{Temporary: true}
+	var opts bccsp.KeyGenOpts
+	if IsGMConfig() {
+		opts = &bccsp.GMSM2KeyGenOpts{Temporary: true}
+	} else {
+		opts = &bccsp.AES256KeyGenOpts{Temporary: true}
+	}
 	return csp.KeyGen(opts)
 }

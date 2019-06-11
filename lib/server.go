@@ -8,8 +8,8 @@ package lib
 
 import (
 	"context"
-	"crypto/tls"
-	"crypto/x509"
+	tls "github.com/tjfoc/gmtls"
+	//"crypto/x509"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -29,19 +29,20 @@ import (
 	"github.com/felixge/httpsnoop"
 	ghandlers "github.com/gorilla/handlers"
 	gmux "github.com/gorilla/mux"
-	"github.com/hyperledger/fabric-ca/lib/attr"
-	"github.com/hyperledger/fabric-ca/lib/caerrors"
-	calog "github.com/hyperledger/fabric-ca/lib/common/log"
-	"github.com/hyperledger/fabric-ca/lib/metadata"
-	dbutil "github.com/hyperledger/fabric-ca/lib/server/db/util"
-	cametrics "github.com/hyperledger/fabric-ca/lib/server/metrics"
-	"github.com/hyperledger/fabric-ca/lib/server/operations"
-	stls "github.com/hyperledger/fabric-ca/lib/tls"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric-lib-go/healthz"
 	"github.com/hyperledger/fabric/common/metrics"
+	"github.com/mskj/fabric-ca-gm/lib/attr"
+	"github.com/mskj/fabric-ca-gm/lib/caerrors"
+	calog "github.com/mskj/fabric-ca-gm/lib/common/log"
+	"github.com/mskj/fabric-ca-gm/lib/metadata"
+	dbutil "github.com/mskj/fabric-ca-gm/lib/server/db/util"
+	cametrics "github.com/mskj/fabric-ca-gm/lib/server/metrics"
+	"github.com/mskj/fabric-ca-gm/lib/server/operations"
+	stls "github.com/mskj/fabric-ca-gm/lib/tls"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
+	"github.com/tjfoc/gmsm/sm2"
 )
 
 const (
@@ -631,7 +632,7 @@ func (s *Server) listenAndServe() (err error) {
 			}
 		}
 
-		cer, err := util.LoadX509KeyPair(c.TLS.CertFile, c.TLS.KeyFile, s.csp)
+		cer, err := util.LoadX509KeyPairSM2(c.TLS.CertFile, c.TLS.KeyFile, s.csp)
 		if err != nil {
 			return err
 		}
@@ -647,7 +648,7 @@ func (s *Server) listenAndServe() (err error) {
 			return errors.New("Invalid client auth type provided")
 		}
 
-		var certPool *x509.CertPool
+		var certPool *sm2.CertPool
 		if authType != defaultClientAuth {
 			certPool, err = LoadPEMCertPool(c.TLS.ClientAuth.CertFiles)
 			if err != nil {

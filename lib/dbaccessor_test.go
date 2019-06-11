@@ -12,14 +12,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hyperledger/fabric-ca/api"
-	. "github.com/hyperledger/fabric-ca/lib"
-	"github.com/hyperledger/fabric-ca/lib/server/db"
-	"github.com/hyperledger/fabric-ca/lib/server/db/sqlite"
-	cadbuser "github.com/hyperledger/fabric-ca/lib/server/user"
 	"github.com/hyperledger/fabric/common/metrics/disabled"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/mskj/fabric-ca-gm/api"
+	. "github.com/mskj/fabric-ca-gm/lib"
+	"github.com/mskj/fabric-ca-gm/lib/server/db"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/sqlite"
+	cadbuser "github.com/mskj/fabric-ca-gm/lib/server/user"
 	"github.com/stretchr/testify/assert"
 )
 

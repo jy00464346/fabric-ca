@@ -19,11 +19,11 @@ import (
 	"time"
 
 	"github.com/cloudflare/cfssl/csr"
-	"github.com/hyperledger/fabric-ca/api"
-	. "github.com/hyperledger/fabric-ca/lib"
-	"github.com/hyperledger/fabric-ca/lib/tls"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/common/attrmgr"
+	"github.com/mskj/fabric-ca-gm/api"
+	. "github.com/mskj/fabric-ca-gm/lib"
+	"github.com/mskj/fabric-ca-gm/lib/tls"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/stretchr/testify/assert"
 )
 

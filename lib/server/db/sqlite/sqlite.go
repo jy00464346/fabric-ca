@@ -12,9 +12,9 @@ import (
 	"strings"
 
 	"github.com/cloudflare/cfssl/log"
-	"github.com/hyperledger/fabric-ca/lib/server/db"
 	"github.com/hyperledger/fabric/common/metrics"
 	"github.com/jmoiron/sqlx"
+	"github.com/mskj/fabric-ca-gm/lib/server/db"
 	"github.com/pkg/errors"
 )
 

@@ -21,8 +21,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hyperledger/fabric-ca/lib"
-	. "github.com/hyperledger/fabric-ca/util"
+	"github.com/mskj/fabric-ca-gm/lib"
+	. "github.com/mskj/fabric-ca-gm/util"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"

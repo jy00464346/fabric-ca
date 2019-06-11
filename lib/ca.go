@@ -29,28 +29,30 @@ import (
 	"github.com/cloudflare/cfssl/log"
 	"github.com/cloudflare/cfssl/signer"
 	cflocalsigner "github.com/cloudflare/cfssl/signer/local"
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib/attr"
-	"github.com/hyperledger/fabric-ca/lib/caerrors"
-	"github.com/hyperledger/fabric-ca/lib/common"
-	"github.com/hyperledger/fabric-ca/lib/metadata"
-	"github.com/hyperledger/fabric-ca/lib/server/db"
-	cadb "github.com/hyperledger/fabric-ca/lib/server/db"
-	cadbfactory "github.com/hyperledger/fabric-ca/lib/server/db/factory"
-	"github.com/hyperledger/fabric-ca/lib/server/db/mysql"
-	"github.com/hyperledger/fabric-ca/lib/server/db/postgres"
-	"github.com/hyperledger/fabric-ca/lib/server/db/sqlite"
-	dbutil "github.com/hyperledger/fabric-ca/lib/server/db/util"
-	idemix "github.com/hyperledger/fabric-ca/lib/server/idemix"
-	"github.com/hyperledger/fabric-ca/lib/server/ldap"
-	"github.com/hyperledger/fabric-ca/lib/server/user"
-	cadbuser "github.com/hyperledger/fabric-ca/lib/server/user"
-	"github.com/hyperledger/fabric-ca/lib/tcert"
-	"github.com/hyperledger/fabric-ca/lib/tls"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp"
+	"github.com/hyperledger/fabric/bccsp/gm"
 	"github.com/hyperledger/fabric/common/attrmgr"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib/attr"
+	"github.com/mskj/fabric-ca-gm/lib/caerrors"
+	"github.com/mskj/fabric-ca-gm/lib/common"
+	"github.com/mskj/fabric-ca-gm/lib/metadata"
+	"github.com/mskj/fabric-ca-gm/lib/server/db"
+	cadb "github.com/mskj/fabric-ca-gm/lib/server/db"
+	cadbfactory "github.com/mskj/fabric-ca-gm/lib/server/db/factory"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/mysql"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/postgres"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/sqlite"
+	dbutil "github.com/mskj/fabric-ca-gm/lib/server/db/util"
+	"github.com/mskj/fabric-ca-gm/lib/server/idemix"
+	"github.com/mskj/fabric-ca-gm/lib/server/ldap"
+	"github.com/mskj/fabric-ca-gm/lib/server/user"
+	cadbuser "github.com/mskj/fabric-ca-gm/lib/server/user"
+	"github.com/mskj/fabric-ca-gm/lib/tcert"
+	"github.com/mskj/fabric-ca-gm/lib/tls"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
+	"github.com/tjfoc/gmsm/sm2"
 )
 
 const (
@@ -152,6 +154,10 @@ func (ca *CA) init(renew bool) (err error) {
 	log.Debugf("Init CA with home %s and config %+v", ca.HomeDir, *ca.Config)
 
 	// Initialize the config, setting defaults, etc
+	if ca.Config.CSP != nil {
+		log.Info("#################bccsp name = ", ca.Config.CSP.ProviderName)
+		SetProviderName(ca.Config.CSP.ProviderName)
+	}
 	err = ca.initConfig()
 	if err != nil {
 		return err
@@ -350,25 +356,33 @@ func (ca *CA) getCACert() (cert []byte, err error) {
 			csr.CA.Expiry = defaultRootCACertificateExpiration
 		}
 
-		if (csr.KeyRequest == nil) || (csr.KeyRequest.Algo == "" && csr.KeyRequest.Size == 0) {
-			csr.KeyRequest = GetKeyRequest(ca.Config)
+		var keyRequest *cfcsr.BasicKeyRequest
+		if IsGMConfig() {
+			keyRequest = cfcsr.NewGMKeyRequest()
+		} else {
+			keyRequest = cfcsr.NewBasicKeyRequest()
 		}
 		req := cfcsr.CertificateRequest{
-			CN:           csr.CN,
-			Names:        csr.Names,
-			Hosts:        csr.Hosts,
-			KeyRequest:   &cfcsr.BasicKeyRequest{A: csr.KeyRequest.Algo, S: csr.KeyRequest.Size},
+			CN:    csr.CN,
+			Names: csr.Names,
+			Hosts: csr.Hosts,
+			//KeyRequest:   &cfcsr.BasicKeyRequest{A: csr.KeyRequest.Algo, S: csr.KeyRequest.Size},
+			KeyRequest:   keyRequest,
 			CA:           csr.CA,
 			SerialNumber: csr.SerialNumber,
 		}
 		log.Debugf("Root CA certificate request: %+v", req)
 		// Generate the key/signer
-		_, cspSigner, err := util.BCCSPKeyRequestGenerate(&req, ca.csp)
+		key, cspSigner, err := util.BCCSPKeyRequestGenerate(&req, ca.csp)
 		if err != nil {
 			return nil, err
 		}
 		// Call CFSSL to initialize the CA
-		cert, _, err = initca.NewFromSigner(&req, cspSigner)
+		if IsGMConfig() {
+			cert, err = createGmSm2Cert(key, &req, cspSigner)
+		} else {
+			cert, _, err = initca.NewFromSigner(&req, cspSigner)
+		}
 		if err != nil {
 			return nil, errors.WithMessage(err, "Failed to create new CA certificate")
 		}
@@ -488,14 +502,44 @@ func (ca *CA) initConfig() (err error) {
 	return nil
 }
 
+func getVerifyOptions(ca *CA) (*sm2.VerifyOptions, error) {
+	chain, err := ca.getCAChain()
+	if err != nil {
+		return nil, err
+	}
+	block, rest := pem.Decode(chain)
+	if block == nil {
+		return nil, errors.New("No root certificate was found")
+	}
+	rootCert, err := sm2.ParseCertificate(block.Bytes)
+	if err != nil {
+		return nil, fmt.Errorf("Failed to parse root certificate: %s", err)
+	}
+	rootPool := sm2.NewCertPool()
+	rootPool.AddCert(rootCert)
+	var intPool *sm2.CertPool
+	if len(rest) > 0 {
+		intPool = sm2.NewCertPool()
+		if !intPool.AppendCertsFromPEM(rest) {
+			return nil, errors.New("Failed to add intermediate PEM certificates")
+		}
+	}
+	return &sm2.VerifyOptions{
+		Roots:         rootPool,
+		Intermediates: intPool,
+		KeyUsages:     []sm2.ExtKeyUsage{sm2.ExtKeyUsageAny},
+	}, nil
+}
+
 // VerifyCertificate verifies that 'cert' was issued by this CA
 // Return nil if successful; otherwise, return an error.
 func (ca *CA) VerifyCertificate(cert *x509.Certificate) error {
-	opts, err := ca.getVerifyOptions()
+	sm2Cert := gm.ParseX509Certificate2Sm2(cert)
+	opts, err := getVerifyOptions(ca)
 	if err != nil {
 		return errors.WithMessage(err, "Failed to get verify options")
 	}
-	_, err = cert.Verify(*opts)
+	_, err = sm2Cert.Verify(*opts)
 	if err != nil {
 		return errors.WithMessage(err, "Failed to verify certificate")
 	}
@@ -1157,13 +1201,27 @@ func validateMatchingKeys(cert *x509.Certificate, keyFile string) error {
 			return errors.New("Public key and private key do not match")
 		}
 	case *ecdsa.PublicKey:
-		privKey, err := util.GetECPrivateKey(keyPEM)
-		if err != nil {
-			return err
-		}
+		log.Debug("Check that public key and private key match11")
+		pub, _ := cert.PublicKey.(*ecdsa.PublicKey)
+		log.Debug("check public key")
+		switch pub.Curve {
+		case sm2.P256Sm2():
+			privKey, err := util.GetSM2PrivateKey(keyPEM)
+			if err != nil {
+				return err
+			}
+			if pub.X.Cmp(privKey.X) != 0 || pub.Y.Cmp(privKey.Y) != 0 {
+				return errors.New("sm2 private key does not match public key")
+			}
+		default:
+			privKey, err := util.GetECPrivateKey(keyPEM)
+			if err != nil {
+				return err
+			}
 
-		if privKey.PublicKey.X.Cmp(pubKey.(*ecdsa.PublicKey).X) != 0 {
-			return errors.New("Public key and private key do not match")
+			if privKey.PublicKey.X.Cmp(pubKey.(*ecdsa.PublicKey).X) != 0 {
+				return errors.New("Public key and private key do not match")
+			}
 		}
 	}
 

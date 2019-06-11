@@ -13,10 +13,10 @@ import (
 	"strings"
 
 	"github.com/cloudflare/cfssl/log"
-	"github.com/hyperledger/fabric-ca/lib"
-	calog "github.com/hyperledger/fabric-ca/lib/common/log"
-	"github.com/hyperledger/fabric-ca/lib/metadata"
-	"github.com/hyperledger/fabric-ca/util"
+	"github.com/mskj/fabric-ca-gm/lib"
+	calog "github.com/mskj/fabric-ca-gm/lib/common/log"
+	"github.com/mskj/fabric-ca-gm/lib/metadata"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
 )
 
@@ -341,7 +341,7 @@ signing:
 csr:
    cn: <<<COMMONNAME>>>
    keyrequest:
-     algo: ecdsa
+     algo: gmsm2
      size: 256
    names:
       - C: US
@@ -385,8 +385,8 @@ idemix:
 # crypto library implementation to use
 #############################################################################
 bccsp:
-    default: SW
-    sw:
+    default: GM
+    gmca:
         hash: SHA2
         security: 256
         filekeystore:

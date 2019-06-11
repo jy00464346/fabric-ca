@@ -9,9 +9,9 @@ package mysql_test
 import (
 	"errors"
 
-	"github.com/hyperledger/fabric-ca/lib/server/db/mysql"
-	"github.com/hyperledger/fabric-ca/lib/server/db/mysql/mocks"
-	"github.com/hyperledger/fabric-ca/lib/server/db/util"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/mysql"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/mysql/mocks"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/util"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

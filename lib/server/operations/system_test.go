@@ -15,10 +15,10 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/hyperledger/fabric-ca/lib/server/operations"
 	"github.com/hyperledger/fabric/common/metrics/disabled"
 	"github.com/hyperledger/fabric/common/metrics/prometheus"
 	"github.com/hyperledger/fabric/common/metrics/statsd"
+	"github.com/mskj/fabric-ca-gm/lib/server/operations"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

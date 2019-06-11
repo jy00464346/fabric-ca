@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
 package idemix
 
 import (
-	"crypto/x509"
+	//"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"reflect"
@@ -19,15 +19,16 @@ import (
 	proto "github.com/golang/protobuf/proto"
 	"github.com/hyperledger/fabric-amcl/amcl"
 	fp256bn "github.com/hyperledger/fabric-amcl/amcl/FP256BN"
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib/common"
-	"github.com/hyperledger/fabric-ca/lib/server/db"
-	dbutil "github.com/hyperledger/fabric-ca/lib/server/db/util"
-	"github.com/hyperledger/fabric-ca/lib/server/user"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/idemix"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib/common"
+	"github.com/mskj/fabric-ca-gm/lib/server/db"
+	dbutil "github.com/mskj/fabric-ca-gm/lib/server/db/util"
+	"github.com/mskj/fabric-ca-gm/lib/server/user"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
+	"github.com/tjfoc/gmsm/sm2"
 )
 
 // Issuer is the interface to the Issuer for external components
@@ -154,7 +155,7 @@ func (i *issuer) RevocationPublicKey() ([]byte, error) {
 		return nil, errors.New("Issuer is not initialized")
 	}
 	rpk := i.RevocationAuthority().PublicKey()
-	encodedPubKey, err := x509.MarshalPKIXPublicKey(rpk)
+	encodedPubKey, err := sm2.MarshalPKIXPublicKey(rpk)
 	if err != nil {
 		return nil, errors.Wrapf(err, "Failed to encode revocation authority public key of the issuer %s", i.Name())
 	}

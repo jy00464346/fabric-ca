@@ -16,13 +16,13 @@ import (
 
 	"github.com/Knetic/govaluate"
 	"github.com/cloudflare/cfssl/log"
-	"github.com/hyperledger/fabric-ca/api"
-	causer "github.com/hyperledger/fabric-ca/lib/server/user"
-	"github.com/hyperledger/fabric-ca/lib/spi"
-	ctls "github.com/hyperledger/fabric-ca/lib/tls"
-	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/jmoiron/sqlx"
+	"github.com/mskj/fabric-ca-gm/api"
+	causer "github.com/mskj/fabric-ca-gm/lib/server/user"
+	"github.com/mskj/fabric-ca-gm/lib/spi"
+	ctls "github.com/mskj/fabric-ca-gm/lib/tls"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
 	ldap "gopkg.in/ldap.v2"
 )

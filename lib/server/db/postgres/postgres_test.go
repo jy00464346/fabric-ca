@@ -10,10 +10,10 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/hyperledger/fabric-ca/lib/server/db/postgres"
-	"github.com/hyperledger/fabric-ca/lib/server/db/postgres/mocks"
-	"github.com/hyperledger/fabric-ca/lib/tls"
 	"github.com/hyperledger/fabric/common/metrics/disabled"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/postgres"
+	"github.com/mskj/fabric-ca-gm/lib/server/db/postgres/mocks"
+	"github.com/mskj/fabric-ca-gm/lib/tls"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"

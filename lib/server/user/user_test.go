@@ -9,9 +9,9 @@ package user_test
 import (
 	"errors"
 
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib/server/user"
-	"github.com/hyperledger/fabric-ca/lib/server/user/mocks"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib/server/user"
+	"github.com/mskj/fabric-ca-gm/lib/server/user/mocks"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"golang.org/x/crypto/bcrypt"

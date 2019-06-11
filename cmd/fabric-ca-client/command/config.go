@@ -17,11 +17,11 @@ import (
 
 	"github.com/cloudflare/cfssl/csr"
 	"github.com/cloudflare/cfssl/log"
-	"github.com/hyperledger/fabric-ca/api"
-	"github.com/hyperledger/fabric-ca/lib"
-	"github.com/hyperledger/fabric-ca/lib/attr"
-	calog "github.com/hyperledger/fabric-ca/lib/common/log"
-	"github.com/hyperledger/fabric-ca/util"
+	"github.com/mskj/fabric-ca-gm/api"
+	"github.com/mskj/fabric-ca-gm/lib"
+	"github.com/mskj/fabric-ca-gm/lib/attr"
+	calog "github.com/mskj/fabric-ca-gm/lib/common/log"
+	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/pkg/errors"
 )
 
@@ -137,7 +137,7 @@ tls:
 csr:
   cn: <<<ENROLLMENT_ID>>>
   keyrequest:
-    algo: ecdsa
+    algo: gmsm2
     size: 256
   serialnumber:
   names:
@@ -189,8 +189,8 @@ caname:
 # crypto implementation library to use
 #############################################################################
 bccsp:
-    default: SW
-    sw:
+    default: GM
+    gmca:
         hash: SHA2
         security: 256
         filekeystore:
