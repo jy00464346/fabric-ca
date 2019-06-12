@@ -19,9 +19,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mskj/fabric-ca-gm/api"
-	"github.com/mskj/fabric-ca-gm/lib/metadata"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/api"
+	"github.com/hyperledger/fabric-ca/lib/metadata"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/stretchr/testify/assert"
 )
 

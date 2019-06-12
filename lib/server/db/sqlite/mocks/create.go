@@ -5,7 +5,7 @@ import (
 	sql "database/sql"
 	sync "sync"
 
-	sqlite "github.com/mskj/fabric-ca-gm/lib/server/db/sqlite"
+	sqlite "github.com/hyperledger/fabric-ca/lib/server/db/sqlite"
 )
 
 type Create struct {

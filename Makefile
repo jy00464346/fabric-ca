@@ -53,7 +53,7 @@ PGVER=9.5
 endif
 
 BASEIMAGE_RELEASE = 0.4.15
-PKGNAME = github.com/mskj/fabric-ca-gm
+PKGNAME = github.com/hyperledger/$(PROJECT_NAME)
 
 METADATA_VAR = Version=$(PROJECT_VERSION)
 

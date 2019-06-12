@@ -17,13 +17,13 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/hyperledger/fabric-ca/api"
+	"github.com/hyperledger/fabric-ca/lib"
+	"github.com/hyperledger/fabric-ca/lib/client/credential"
+	. "github.com/hyperledger/fabric-ca/lib/client/credential/x509"
+	"github.com/hyperledger/fabric-ca/lib/client/credential/x509/mocks"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp/factory"
-	"github.com/mskj/fabric-ca-gm/api"
-	"github.com/mskj/fabric-ca-gm/lib"
-	"github.com/mskj/fabric-ca-gm/lib/client/credential"
-	. "github.com/mskj/fabric-ca-gm/lib/client/credential/x509"
-	"github.com/mskj/fabric-ca-gm/lib/client/credential/x509/mocks"
-	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/stretchr/testify/assert"
 )
 

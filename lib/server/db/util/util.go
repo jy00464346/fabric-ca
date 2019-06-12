@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mskj/fabric-ca-gm/lib/caerrors"
+	"github.com/hyperledger/fabric-ca/lib/caerrors"
 )
 
 var (

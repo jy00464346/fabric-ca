@@ -7,8 +7,8 @@ SPDX-License-Identifier: Apache-2.0
 package lib
 
 import (
-	"github.com/mskj/fabric-ca-gm/lib/common"
-	"github.com/mskj/fabric-ca-gm/lib/metadata"
+	"github.com/hyperledger/fabric-ca/lib/common"
+	"github.com/hyperledger/fabric-ca/lib/metadata"
 )
 
 // ServerInfoResponseNet is the response to the GET /cainfo request

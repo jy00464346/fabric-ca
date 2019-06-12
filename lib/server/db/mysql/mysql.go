@@ -13,12 +13,12 @@ import (
 
 	"github.com/cloudflare/cfssl/log"
 	"github.com/go-sql-driver/mysql"
+	"github.com/hyperledger/fabric-ca/lib/server/db"
+	"github.com/hyperledger/fabric-ca/lib/server/db/util"
+	"github.com/hyperledger/fabric-ca/lib/tls"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/common/metrics"
 	"github.com/jmoiron/sqlx"
-	"github.com/mskj/fabric-ca-gm/lib/server/db"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/util"
-	"github.com/mskj/fabric-ca-gm/lib/tls"
 	"github.com/pkg/errors"
 )
 

@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/mskj/fabric-ca-gm/api"
-	"github.com/mskj/fabric-ca-gm/lib"
+	"github.com/hyperledger/fabric-ca/api"
+	"github.com/hyperledger/fabric-ca/lib"
 )
 
 // testClient represents an application using the fabric-ca client

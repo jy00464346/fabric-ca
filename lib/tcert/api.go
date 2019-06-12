@@ -16,7 +16,7 @@ limitations under the License.
 
 package tcert
 
-import "github.com/mskj/fabric-ca-gm/api"
+import "github.com/hyperledger/fabric-ca/api"
 
 // GetTCertBatchRequest defines input to the GetBatch API
 type GetTCertBatchRequest struct {

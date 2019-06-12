@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
+	. "github.com/hyperledger/fabric-ca/lib/server/idemix"
+	dmocks "github.com/hyperledger/fabric-ca/lib/server/idemix/mocks"
 	"github.com/kisielk/sqlstruct"
-	. "github.com/mskj/fabric-ca-gm/lib/server/idemix"
-	dmocks "github.com/mskj/fabric-ca-gm/lib/server/idemix/mocks"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 )

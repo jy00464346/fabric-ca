@@ -9,7 +9,7 @@ package command
 import (
 	"testing"
 
-	"github.com/mskj/fabric-ca-gm/lib"
+	"github.com/hyperledger/fabric-ca/lib"
 )
 
 func TestProcessAttributes(t *testing.T) {

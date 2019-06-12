@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/cloudflare/cfssl/log"
+	"github.com/hyperledger/fabric-ca/lib/server/db"
 	"github.com/kisielk/sqlstruct"
-	"github.com/mskj/fabric-ca-gm/lib/server/db"
 	"github.com/pkg/errors"
 )
 

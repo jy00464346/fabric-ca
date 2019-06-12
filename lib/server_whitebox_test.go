@@ -15,11 +15,11 @@ import (
 
 	"github.com/cloudflare/cfssl/log"
 	"github.com/gorilla/mux"
+	cadb "github.com/hyperledger/fabric-ca/lib/server/db"
+	"github.com/hyperledger/fabric-ca/lib/server/metrics"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/common/metrics/metricsfakes"
 	"github.com/jmoiron/sqlx"
-	cadb "github.com/mskj/fabric-ca-gm/lib/server/db"
-	"github.com/mskj/fabric-ca-gm/lib/server/metrics"
-	"github.com/mskj/fabric-ca-gm/util"
 	. "github.com/onsi/gomega"
 	"github.com/stretchr/testify/assert"
 )

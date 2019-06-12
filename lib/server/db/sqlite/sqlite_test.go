@@ -11,9 +11,9 @@ import (
 	"errors"
 	"os"
 
+	"github.com/hyperledger/fabric-ca/lib/server/db/sqlite"
+	"github.com/hyperledger/fabric-ca/lib/server/db/sqlite/mocks"
 	"github.com/hyperledger/fabric/common/metrics/disabled"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/sqlite"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/sqlite/mocks"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

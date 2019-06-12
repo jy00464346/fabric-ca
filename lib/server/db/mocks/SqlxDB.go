@@ -6,8 +6,8 @@ import (
 	sql "database/sql"
 	sync "sync"
 
+	db "github.com/hyperledger/fabric-ca/lib/server/db"
 	sqlx "github.com/jmoiron/sqlx"
-	db "github.com/mskj/fabric-ca-gm/lib/server/db"
 )
 
 type SqlxDB struct {

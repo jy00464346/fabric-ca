@@ -20,8 +20,8 @@ import (
 	"fmt"
 
 	"github.com/cloudflare/cfssl/log"
-	"github.com/mskj/fabric-ca-gm/api"
-	calog "github.com/mskj/fabric-ca-gm/lib/common/log"
+	"github.com/hyperledger/fabric-ca/api"
+	calog "github.com/hyperledger/fabric-ca/lib/common/log"
 	"github.com/spf13/cobra"
 )
 

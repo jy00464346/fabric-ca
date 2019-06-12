@@ -11,10 +11,10 @@ import (
 	"strings"
 
 	"github.com/cloudflare/cfssl/log"
-	"github.com/mskj/fabric-ca-gm/api"
-	"github.com/mskj/fabric-ca-gm/lib/caerrors"
-	"github.com/mskj/fabric-ca-gm/lib/server/db"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/api"
+	"github.com/hyperledger/fabric-ca/lib/caerrors"
+	"github.com/hyperledger/fabric-ca/lib/server/db"
+	"github.com/hyperledger/fabric-ca/util"
 )
 
 type revocationResponseNet struct {

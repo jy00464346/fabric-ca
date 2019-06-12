@@ -18,14 +18,14 @@ import (
 	"github.com/cloudflare/cfssl/csr"
 	"github.com/cloudflare/cfssl/log"
 	"github.com/cloudflare/cfssl/signer"
+	"github.com/hyperledger/fabric-ca/api"
+	cax509 "github.com/hyperledger/fabric-ca/lib/client/credential/x509"
+	"github.com/hyperledger/fabric-ca/lib/common"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/bccsp/factory"
 	cspsigner "github.com/hyperledger/fabric/bccsp/signer"
 	"github.com/hyperledger/fabric/bccsp/utils"
-	"github.com/mskj/fabric-ca-gm/api"
-	cax509 "github.com/mskj/fabric-ca-gm/lib/client/credential/x509"
-	"github.com/mskj/fabric-ca-gm/lib/common"
-	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/stretchr/testify/assert"
 )
 

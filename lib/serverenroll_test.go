@@ -10,9 +10,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mskj/fabric-ca-gm/api"
-	dbuser "github.com/mskj/fabric-ca-gm/lib/server/user"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/api"
+	dbuser "github.com/hyperledger/fabric-ca/lib/server/user"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/stretchr/testify/assert"
 )
 

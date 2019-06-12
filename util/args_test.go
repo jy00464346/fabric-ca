@@ -20,7 +20,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/util"
 )
 
 func TestGetCommandLineOptValue(t *testing.T) {

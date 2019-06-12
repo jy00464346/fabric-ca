@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/cloudflare/cfssl/log"
-	"github.com/mskj/fabric-ca-gm/api"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/api"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/pkg/errors"
 )
 

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/cloudflare/cfssl/csr"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/util"
 )
 
 // RegistrationRequest for a new identity

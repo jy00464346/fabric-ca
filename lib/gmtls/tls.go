@@ -23,9 +23,9 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/cloudflare/cfssl/log"
+	"github.com/hyperledger/fabric-ca/util"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/bccsp/factory"
-	"github.com/mskj/fabric-ca-gm/util"
 	"github.com/tjfoc/gmsm/sm2"
 	gtls "github.com/tjfoc/gmtls"
 )

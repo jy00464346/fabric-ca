@@ -24,7 +24,7 @@ import (
 	"github.com/tjfoc/gmsm/sm2"
 
 	"github.com/cloudflare/cfssl/signer"
-	"github.com/mskj/fabric-ca-gm/util"
+	"github.com/hyperledger/fabric-ca/util"
 )
 
 //证书签名
@@ -138,7 +138,7 @@ func parseCertificateRequest(csrBytes []byte) (template *sm2.Certificate, err er
 		EmailAddresses:     csrv.EmailAddresses,
 	}
 
-	fmt.Printf("[gmca] parseCertificateRequest algorithn = %v, %v\n", template.PublicKeyAlgorithm, template.SignatureAlgorithm)
+	log.Infof("[gmca] parseCertificateRequest algorithn = %v, %v\n", template.PublicKeyAlgorithm, template.SignatureAlgorithm)
 	log.Infof("[gmca] parseCertificateRequest publicKey :%T", template.PublicKey)
 
 	template.NotBefore = time.Now()

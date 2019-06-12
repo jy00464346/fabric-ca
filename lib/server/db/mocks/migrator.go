@@ -4,7 +4,7 @@ package mocks
 import (
 	sync "sync"
 
-	db "github.com/mskj/fabric-ca-gm/lib/server/db"
+	db "github.com/hyperledger/fabric-ca/lib/server/db"
 )
 
 type Migrator struct {

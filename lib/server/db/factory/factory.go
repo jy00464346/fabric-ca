@@ -9,13 +9,13 @@ package factory
 import (
 	"context"
 
+	"github.com/hyperledger/fabric-ca/lib/server/db"
+	"github.com/hyperledger/fabric-ca/lib/server/db/mysql"
+	"github.com/hyperledger/fabric-ca/lib/server/db/postgres"
+	"github.com/hyperledger/fabric-ca/lib/server/db/sqlite"
+	"github.com/hyperledger/fabric-ca/lib/tls"
 	"github.com/hyperledger/fabric/bccsp"
 	"github.com/hyperledger/fabric/common/metrics"
-	"github.com/mskj/fabric-ca-gm/lib/server/db"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/mysql"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/postgres"
-	"github.com/mskj/fabric-ca-gm/lib/server/db/sqlite"
-	"github.com/mskj/fabric-ca-gm/lib/tls"
 	"github.com/pkg/errors"
 )
 
