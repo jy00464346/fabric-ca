@@ -155,7 +155,7 @@ func (ca *CA) init(renew bool) (err error) {
 
 	// Initialize the config, setting defaults, etc
 	if ca.Config.CSP != nil {
-		log.Info("#################bccsp name = ", ca.Config.CSP.ProviderName)
+		log.Info("[ca] bccsp name = ", ca.Config.CSP.ProviderName)
 		SetProviderName(ca.Config.CSP.ProviderName)
 	}
 	err = ca.initConfig()

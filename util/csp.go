@@ -261,7 +261,7 @@ func GetSignerFromCertFile(certFile string, csp bccsp.BCCSP) (bccsp.Key, crypto.
 		cert = gm.ParseSm2Certificate2X509(sm2Cert)
 	}
 	key, cspSigner, err := GetSignerFromCert(cert, csp)
-	log.Infof("+++++++++++++KEY = %T error = %v", key, err)
+	log.Infof("[csp] GetSignerFromCertFile KEY = %T error = %v", key, err)
 	return key, cspSigner, cert, err
 }
 
@@ -313,7 +313,7 @@ func ImportBCCSPKeyFromPEM(keyFile string, myCSP bccsp.BCCSP, temporary bool) (b
 		if err != nil {
 			return nil, fmt.Errorf("Failed to convert SM2 private key from %s: %s", keyFile, err.Error())
 		}
-		log.Info("xxxx sm2.PrivateKey!!!!!!!!!!!")
+		log.Info("[csp] ImportBCCSPKeyFromPEM sm2.PrivateKey")
 		block, _ := pem.Decode(keyBuff)
 		priv, err := csp.KeyImport(block.Bytes, &bccsp.GMSM2PrivateKeyImportOpts{Temporary: true})
 		if err != nil {
