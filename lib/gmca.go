@@ -51,30 +51,29 @@ func signCert(req signer.SignRequest, ca *CA) (cert []byte, err error) {
 	}
 	template, err := parseCertificateRequest(block.Bytes)
 	if err != nil {
-		log.Infof("xxxx gmca.go ParseCertificateRequest error:[%s]", err)
+		log.Infof("[gmca] ParseCertificateRequest error:[%s]", err)
 		return nil, err
 	}
 
 	certfile := ca.Config.CA.Certfile
 	//certfile := req.Profile
-	log.Infof("^^^^^^^^^^^^^^^^^^^^^^^certifle = %s", certfile)
+	log.Infof("[gmca] signCert's certifle = %s", certfile)
 	rootkey, _, x509cert, err := util.GetSignerFromCertFile(certfile, ca.csp)
 	if err != nil {
 
 		return nil, err
 	}
-	log.Infof("^^^^^^^^^^^^^^^^^^^^^^^x509cert = %v", x509cert)
+	log.Infof("[gmca] signCert's x509cert = %v", x509cert)
 	rootca := ParseX509Certificate2Sm2(x509cert)
 
 	cert, err = gm.CreateCertificateToMem(template, rootca, rootkey)
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("^^^^^^^^^^^^^^^^^^^^^^^template = %v\n cert = %v\n Type = %T", template, cert, template.PublicKey)
+	log.Infof("[gmca] signCert template = %v\n cert = %v\n Type = %T", template, cert, template.PublicKey)
 	clientCert, err := sm2.ReadCertificateFromMem(cert)
-	log.Info("==================== Exit ParseCertificate")
 	if err == nil {
-		log.Infof("xxxx gmca.go signCert ok the sign cert len [%d]", len(cert))
+		log.Infof("[gmca] signCert ok the sign cert len [%d]", len(cert))
 	}
 
 	var certRecord = certdb.CertificateRecord{
@@ -89,20 +88,16 @@ func signCert(req signer.SignRequest, ca *CA) (cert []byte, err error) {
 	//serial := util.GetSerialAsHex(cert.SerialNumber)
 
 	err = ca.certDBAccessor.InsertCertificate(certRecord)
-	if err == nil {
-		log.Info("=====================error InsertCertificate!")
-	}
-
 	return
 }
 
 //生成证书
 func createGmSm2Cert(key bccsp.Key, req *csr.CertificateRequest, priv crypto.Signer) (cert []byte, err error) {
-	log.Infof("xxx xxx in gmca.go  createGmSm2Cert...key :%T", key)
+	log.Infof("[gmca] createGmSm2Cert...key :%T", key)
 
 	csrPEM, err := generate(priv, req, key)
 	if err != nil {
-		log.Infof("xxxxxxxxxxxxx create csr error:%s", err)
+		log.Infof("[gmca] createGmSm2Cert create csr error:%s", err)
 	}
 	block, _ := pem.Decode(csrPEM)
 	if block == nil {
@@ -116,7 +111,7 @@ func createGmSm2Cert(key bccsp.Key, req *csr.CertificateRequest, priv crypto.Sig
 	if err != nil {
 		return nil, err
 	}
-	log.Infof("key is %T   ---%T", sm2Template.PublicKey, sm2Template)
+	log.Infof("[gmca] key is %T   ---%T", sm2Template.PublicKey, sm2Template)
 	cert, err = gm.CreateCertificateToMem(sm2Template, sm2Template, key)
 	return
 }
@@ -143,8 +138,8 @@ func parseCertificateRequest(csrBytes []byte) (template *sm2.Certificate, err er
 		EmailAddresses:     csrv.EmailAddresses,
 	}
 
-	fmt.Printf("^^^^^^^^^^^^^^^^^^^^^^^^^^algorithn = %v, %v\n", template.PublicKeyAlgorithm, template.SignatureAlgorithm)
-	log.Infof("xxxx publicKey :%T", template.PublicKey)
+	fmt.Printf("[gmca] parseCertificateRequest algorithn = %v, %v\n", template.PublicKeyAlgorithm, template.SignatureAlgorithm)
+	log.Infof("[gmca] parseCertificateRequest publicKey :%T", template.PublicKey)
 
 	template.NotBefore = time.Now()
 	template.NotAfter = time.Now().Add(time.Hour * 1000)
@@ -186,12 +181,11 @@ func parseCertificateRequest(csrBytes []byte) (template *sm2.Certificate, err er
 
 //cloudflare 证书请求 转成 国密证书请求
 func generate(priv crypto.Signer, req *csr.CertificateRequest, key bccsp.Key) (csr []byte, err error) {
-	log.Info("xx entry gm generate")
+	log.Info("[gmca] begin generate gm's certificate request")
 	sigAlgo := signerAlgo(priv)
 	if sigAlgo == sm2.UnknownSignatureAlgorithm {
-		return nil, fmt.Errorf("Private key is unavailable")
+		return nil, fmt.Errorf("Private key is unavailable ")
 	}
-	log.Info("xx begin create sm2.CertificateRequest")
 	var tpl = sm2.CertificateRequest{
 		Subject:            req.Name(),
 		SignatureAlgorithm: sigAlgo,
@@ -209,7 +203,7 @@ func generate(priv crypto.Signer, req *csr.CertificateRequest, key bccsp.Key) (c
 	if req.CA != nil {
 		err = appendCAInfoToCSRSm2(req.CA, &tpl)
 		if err != nil {
-			err = fmt.Errorf("sm2 GenerationFailed")
+			err = fmt.Errorf("failed to appendCAInfoToCSRSm2 :%s", err.Error())
 			return
 		}
 	}
@@ -217,7 +211,7 @@ func generate(priv crypto.Signer, req *csr.CertificateRequest, key bccsp.Key) (c
 
 	}
 	csr, err = gm.CreateSm2CertificateRequestToMem(&tpl, key)
-	log.Info("xx exit generate")
+	log.Info("[gmca] generate gm's certificate request done")
 	return
 }
 

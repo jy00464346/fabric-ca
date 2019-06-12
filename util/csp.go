@@ -161,12 +161,12 @@ func GetSignerFromCert(cert *x509.Certificate, csp bccsp.BCCSP) (bccsp.Key, cryp
 	if csp == nil {
 		return nil, nil, errors.New("CSP was not initialized")
 	}
-	log.Infof("xxxx begin csp.KeyImport,cert.PublicKey is %T   csp:%T", cert.PublicKey, csp)
+	log.Infof("begin csp.KeyImport,cert.PublicKey is %T   csp:%T", cert.PublicKey, csp)
 	switch cert.PublicKey.(type) {
 	case sm2.PublicKey:
-		log.Infof("xxxxx cert is sm2 puk")
+		log.Infof("cert is sm2 puk")
 	default:
-		log.Infof("xxxxx cert is default puk")
+		log.Infof("cert is default puk")
 	}
 
 	sm2cert := gm.ParseX509Certificate2Sm2(cert)
@@ -176,19 +176,18 @@ func GetSignerFromCert(cert *x509.Certificate, csp bccsp.BCCSP) (bccsp.Key, cryp
 		return nil, nil, errors.WithMessage(err, "Failed to import certificate's public key")
 	}
 	kname := hex.EncodeToString(certPubK.SKI())
-	log.Infof("xxxx begin csp.GetKey kname:%s", kname)
+	log.Infof("begin csp.GetKey kname:%s", kname)
 	// Get the key given the SKI value
 	privateKey, err := csp.GetKey(certPubK.SKI())
 	if err != nil {
 		return nil, nil, fmt.Errorf("Could not find matching private key for SKI: %s", err.Error())
 	}
-	log.Info("xxxx begin cspsigner.New()")
 	// Construct and initialize the signer
 	signer, err := cspsigner.New(csp, privateKey)
 	if err != nil {
 		return nil, nil, fmt.Errorf("Failed to load ski from bccsp: %s", err.Error())
 	}
-	log.Info("xxxx end GetSignerFromCert successfuul")
+	log.Info("end GetSignerFromCert successfuul")
 	return privateKey, signer, nil
 }
 
@@ -198,12 +197,12 @@ func GetSignerFromSM2Cert(cert *sm2.Certificate, csp bccsp.BCCSP) (bccsp.Key, cr
 		return nil, nil, fmt.Errorf("CSP was not initialized")
 	}
 
-	log.Infof("xxxx begin csp.KeyImport,cert.PublicKey is %T   csp:%T", cert.PublicKey, csp)
+	log.Infof("begin csp.KeyImport,cert.PublicKey is %T   csp:%T", cert.PublicKey, csp)
 	switch cert.PublicKey.(type) {
 	case sm2.PublicKey:
-		log.Infof("xxxxx cert is sm2 puk")
+		log.Infof("cert is sm2 puk")
 	default:
-		log.Infof("xxxxx cert is default puk")
+		log.Infof("cert is default puk")
 	}
 
 	// sm2cert := gm.ParseX509Certificate2Sm2(cert)
@@ -224,7 +223,7 @@ func GetSignerFromSM2Cert(cert *sm2.Certificate, csp bccsp.BCCSP) (bccsp.Key, cr
 	}
 
 	kname := hex.EncodeToString(certPubK.SKI())
-	log.Infof("xxxx begin csp.GetKey kname:%s", kname)
+	log.Infof("begin csp.GetKey kname:%s", kname)
 
 	// Get the key given the SKI value
 	privateKey, err := csp.GetKey(certPubK.SKI())
@@ -241,7 +240,7 @@ func GetSignerFromSM2Cert(cert *sm2.Certificate, csp bccsp.BCCSP) (bccsp.Key, cr
 	if err != nil {
 		return nil, nil, errors.WithMessage(err, "Failed to load ski from bccsp")
 	}
-	log.Info("xxxx end GetSignerFromCert successfuul")
+	log.Info("end GetSignerFromCert successfuul")
 	return privateKey, signer, nil
 }
 
@@ -253,9 +252,7 @@ func GetSignerFromCertFile(certFile string, csp bccsp.BCCSP) (bccsp.Key, crypto.
 		return nil, nil, nil, errors.Wrapf(err, "Could not read certFile '%s'", certFile)
 	}
 	cert, err := helpers.ParseCertificatePEM(certBytes)
-	//var newCert = &x509.Certificate{}
 	if err != nil || cert == nil {
-		log.Infof("+++++++++++++ error = %s,Maybe it is a gm cert!", err.Error())
 		sm2Cert, err := sm2.ReadCertificateFromPem(certFile)
 		if err != nil {
 			return nil, nil, nil, err
